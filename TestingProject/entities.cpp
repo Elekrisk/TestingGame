@@ -6,6 +6,9 @@ Entity::Entity(const std::string &name)
 {
 	m_name = name;
 	setUnusedId();
+	setAttribute(SPECIAL, 10);
+	setAttribute(STRENGTH, 5);
+	setAttribute(DEXTERITY, 5);
 }
 
 Entity::Entity(const std::string &name, int hp, Entity::Allegiance allegiance) : Entity(name)
@@ -54,9 +57,55 @@ std::string Entity::getAllegianceString() const
 	}
 }
 
+void Entity::setAttribute(Entity::Attribute attr, int value)
+{
+	switch (value)
+	{
+		case Entity::HEALTH:
+			m_maxHp = value;
+			if (m_hp > m_maxHp)
+			{
+				m_hp = m_maxHp;
+			}
+			break;
+		case Entity::SPECIAL:
+			m_maxSp = value;
+			if (m_sp > m_maxSp)
+			{
+				m_sp = m_maxSp;
+			}
+			break;
+		case Entity::STRENGTH:
+			m_str = value;
+			break;
+		case Entity::DEXTERITY:
+			m_dex = value;
+			break;
+		default:
+			break;
+	}
+}
+
+int Entity::getCurrentRoomIndex() const
+{
+	return m_currentRoom;
+}
+
+int Entity::setCurrentRoomIndex(int roomIndex)
+{
+	m_currentRoom = roomIndex;
+}
+
 /// PLAYER CLASS
 
 Player::Player(int hp) : Entity("Player", hp, ALLIED)
+{
+	setAttribute(SPECIAL, 10);
+	setAttribute(STRENGTH, 5);
+	setAttribute(DEXTERITY, 5);
+}
+
+bool Player::pickUpItem()
 {
 	
 }
